@@ -1,0 +1,79 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+        <title>Joe's Hotdogs</title>
+    </head>
+    <body>
+
+        <h1>Joe's Hotdogs</h1>
+
+        <div class="menu">
+            <ul class="food">
+                <li>Hotdogs.........................$4.00</li>
+                <li>French Fries..................$3.50</li>
+                <li>Drinks............................$1.75</li>
+            </ul>
+        </div>
+        <div class="click">
+            <button onclick="customOrder()">ORDER NOW!</button>
+        </div>
+        <div class="order">
+            <p id="hotdogs"></p>
+            <p id="fries"></p>
+            <p id="drinks"></p>
+            <p id="sub_total"></p>
+            <p id="discount"></p>
+            <p id="tax"></p>
+            <p id="final_total"></p>
+        </div>
+    </body>
+
+    
+
+    <script> 
+        function customOrder() {
+            var TAX_PERCENT = 0.0625;
+            var num_hotdogs = prompt("How many hotdogs?");
+            var num_fries = prompt("How many French fries?");
+            var num_drinks = prompt("How many sodas?");
+
+            document.getElementById("hotdogs").innerHTML = "Hotdogs: " + num_hotdogs;
+            document.getElementById("fries").innerHTML = "French Fries: " + num_fries;
+            document.getElementById("drinks").innerHTML = "Drinks: " + num_drinks;
+
+            var subtotal = (num_hotdogs * 4) + (num_fries * 3.5) + (num_drinks * 1.75);
+            document.getElementById("sub_total").innerHTML = "Subtotal: $" + subtotal;
+
+            if (subtotal >= 20) {
+                let discount = roundValue(subtotal * 0.10);
+                subtotal = roundValue(subtotal - discount);
+                document.getElementById("discount").innerHTML = "Discount (10%): $" + discount;
+            }
+
+            let tax = roundValue(subtotal * TAX_PERCENT);
+            document.getElementById("tax").innerHTML = "Tax: $" + tax;
+
+            total_cost = subtotal + tax;
+            total_cost = roundValue(total_cost)
+            document.getElementById("final_total").innerHTML = "TOTAL: $" + total_cost;
+        }
+
+        function roundValue(total_cost) 
+        {
+            var remainder = (total_cost % 1) * 1000;
+            var to_round = remainder - (remainder % 1);
+            var r_to_string = String(to_round);
+
+            if (r_to_string[2] >= 0.5) 
+            {
+                to_round = to_round + 10;
+            }
+
+            var x = Number(r_to_string[2]);
+            to_round = to_round - x;
+            var new_cost = (total_cost - (total_cost % 1)) + (to_round / 1000);
+            
+            return new_cost;
+        }
+    </script>
+</html>
